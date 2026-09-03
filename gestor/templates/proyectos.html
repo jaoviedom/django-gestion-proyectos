@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de proyectos</title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        .proyecto-card {
+            transition: box-shadow 0.15s ease, transform 0.1s ease;
+        }
+        .proyecto-card:hover {
+            box-shadow: 0 8px 20px rgba(0,0,0,0.04), 0 2px 6px rgba(0,0,0,0.02);
+            transform: translateY(-1px);
+        }
+        .enlace-accion {
+            transition: color 0.15s, background-color 0.15s;
+        }
+        .enlace-accion:hover {
+            background-color: #f1f5f9;
+        }
+        .empty-state {
+            background: #ffffff;
+            border: 1px dashed #d1d5db;
+        }
+        .btn-crear {
+            transition: all 0.3s ease;
+        }
+        .btn-crear:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 antialiased text-slate-700 min-h-screen flex items-center justify-center p-4 md:p-6">
+
+    <main class="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl p-6 md:p-8 border border-gray-200/50 w-full">
+        
+        <!-- encabezado con botón crear -->
+        <div class="flex flex-wrap items-center justify-between gap-4 mb-8 border-b border-gray-200/80 pb-5">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-800 flex items-center gap-2 tracking-tight">
+                    <span class="bg-gray-800 text-white text-sm font-medium px-3 py-1 rounded-full">📋</span>
+                    Proyectos
+                </h1>
+                <p class="text-sm text-gray-500 mt-1">Listado de proyectos activos</p>
+            </div>
+            <div class="flex items-center gap-3">
+                <!-- Botón Crear Nuevo Proyecto -->
+                <a href="{% url 'nuevo_proyecto' %}" 
+                   class="btn-crear inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-sm font-medium rounded-xl shadow-md transition-all duration-300">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 5v14M5 12h14"/>
+                    </svg>
+                    Nuevo proyecto
+                </a>
+                <!-- Contador de proyectos -->
+                <div class="text-sm bg-gray-100 px-4 py-2 rounded-full text-gray-600 shadow-sm">
+                    <span class="font-medium">{{ proyectos|length }}</span> 
+                    {% if proyectos|length == 1 %}proyecto{% else %}proyectos{% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTENIDO PRINCIPAL: lista de proyectos -->
+        {% if proyectos %}
+            <ul class="space-y-4" role="list">
+                {% for proyecto in proyectos %}
+                <li class="proyecto-card bg-white border border-gray-200/80 rounded-xl p-5 md:p-6 shadow-sm transition-all hover:shadow-lg">
+                    <div class="flex flex-col md:flex-row md:items-start gap-3 md:gap-6">
+                        <!-- info principal del proyecto -->
+                        <div class="flex-1 min-w-0">
+                            <h2 class="text-xl font-semibold text-gray-800 truncate">{{ proyecto.nombre }}</h2>
+                            
+                            <p class="text-gray-600 text-sm mt-1.5 leading-relaxed">
+                                {{ proyecto.descripcion|default:"Sin descripción" }}
+                            </p>
+                            
+                            <div class="flex flex-wrap items-center gap-x-4 gap-y-1 mt-3 text-xs font-medium text-gray-500">
+                                <span class="inline-flex items-center gap-1.5 bg-gray-100 px-3 py-1 rounded-full">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                    {{ proyecto.duracion|default:"—" }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- acciones: ver + eliminar -->
+                        <div class="flex flex-row md:flex-col items-center md:items-end gap-2 md:gap-2.5 mt-2 md:mt-0 shrink-0">
+                            <!-- enlace detalle -->
+                            <a href="{% url 'proyecto_detalle' proyecto.id %}" 
+                            class="enlace-accion w-full md:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100/80 hover:bg-gray-200/80 rounded-lg transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+                                Ver
+                            </a>
+                            <!-- enlace eliminar -->
+                            <a href="{% url 'eliminar_proyecto' proyecto.id %}" 
+                                onclick="return confirm('¿Está seguro de eliminar el proyecto?')"
+                                class="enlace-accion w-full md:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2 text-sm font-medium text-rose-600 bg-rose-50/70 hover:bg-rose-100/80 rounded-lg transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                                Eliminar
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <!-- estado vacío (sin proyectos) -->
+            <div class="empty-state rounded-xl p-10 text-center">
+                <div class="flex flex-col items-center gap-2">
+                    <span class="text-4xl mb-1">📭</span>
+                    <h3 class="text-lg font-medium text-gray-600">No hay proyectos</h3>
+                    <p class="text-sm text-gray-400 max-w-sm">Parece que todavía no has creado ningún proyecto.</p>
+                    <a href="{% url 'crear_proyecto' %}" 
+                       class="mt-4 inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-sm font-medium rounded-xl shadow-md transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 5v14M5 12h14"/>
+                        </svg>
+                        Crear primer proyecto
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+        
+        <!-- pie de página sutil -->
+        <div class="mt-8 pt-4 border-t border-gray-200/60 text-xs text-gray-400 flex flex-wrap justify-between items-center">
+            <span class="flex gap-3">
+                <span class="inline-flex items-center gap-1">
+                    {{ proyectos|length }} proyectos
+                </span>
+            </span>
+            <a href="{% url 'nuevo_proyecto' %}" class="text-gray-400 hover:text-gray-600 transition-colors">
+                + Crear nuevo
+            </a>
+        </div>
+    </main>
+
+</body>
+</html>

@@ -4,189 +4,121 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalle del proyecto · Gestor de Proyectos</title>
-    <!-- Tailwind CSS v4 -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome 6.7.3 (versión gratuita) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css">
-    <style>
-        /* Estilos base */
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: #f8fafc;
-        }
-        .detalle-card {
-            transition: box-shadow 0.15s ease, transform 0.1s ease;
-        }
-        .detalle-card:hover {
-            box-shadow: 0 8px 20px rgba(0,0,0,0.04), 0 2px 6px rgba(0,0,0,0.02);
-            transform: translateY(-1px);
-        }
-        .enlace-accion {
-            transition: color 0.15s, background-color 0.15s, transform 0.15s;
-        }
-        .enlace-accion:hover {
-            background-color: #f1f5f9;
-            transform: translateY(-1px);
-        }
-        .enlace-accion:active {
-            transform: translateY(0px);
-        }
-        .tarea-item {
-            transition: background-color 0.15s, border-color 0.15s;
-        }
-        .tarea-item:hover {
-            background-color: #f8fafc;
-            border-color: #c7d2fe;
-        }
-        /* Badges de estado */
-        .badge-pendiente {
-            background-color: #fef3c7;
-            color: #92400e;
-            border-color: #fcd34d;
-        }
-        .badge-progreso {
-            background-color: #dbeafe;
-            color: #1e40af;
-            border-color: #93c5fd;
-        }
-        .badge-completada {
-            background-color: #d1fae5;
-            color: #065f46;
-            border-color: #6ee7b7;
-        }
-        .badge-prioridad-alta {
-            background-color: #fee2e2;
-            color: #991b1b;
-            border-color: #fca5a5;
-        }
-        .badge-prioridad-media {
-            background-color: #fef3c7;
-            color: #92400e;
-            border-color: #fcd34d;
-        }
-        .badge-prioridad-baja {
-            background-color: #d1fae5;
-            color: #065f46;
-            border-color: #6ee7b7;
-        }
-    </style>
 </head>
-<body class="antialiased text-slate-700 p-4 md:p-6">
+<body class="bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 min-h-screen p-4 md:p-6">
 
-    <main class="max-w-4xl mx-auto bg-white/70 backdrop-blur-sm rounded-2xl shadow-sm p-6 md:p-8 border border-slate-200/60">
-        
-        <!-- encabezado con navegación volver -->
-        <div class="flex flex-wrap items-center justify-between gap-4 mb-6 border-b border-slate-200/80 pb-4">
-            <div class="flex items-center gap-3">
-                <a href="{% url 'proyectos' %}" 
-                   class="inline-flex items-center gap-1.5 text-sm font-medium text-slate-500 hover:text-slate-700 transition-colors enlace-accion px-3 py-1.5 rounded-lg -ml-2">
-                    <i class="fa-regular fa-square-caret-left"></i>
+    <main class="w-full max-w-4xl mx-auto bg-white/80 backdrop-blur-lg rounded-2xl shadow-xl border border-white p-6 md:p-8">
+
+        <!-- ===== Encabezado ===== -->
+        <div class="flex flex-wrap items-center justify-between gap-4 mb-6 pb-5 border-b border-slate-200">
+            <div class="flex items-center gap-3 flex-wrap">
+                <a href="{% url 'proyectos' %}"
+                   class="inline-flex items-center gap-1.5 text-sm font-medium text-slate-500 hover:text-indigo-600 transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
                     Volver
                 </a>
                 <span class="text-slate-300">|</span>
-                <h1 class="text-2xl font-semibold tracking-tight text-slate-800 flex items-center gap-2">
-                    <span class="bg-slate-800 text-white text-sm font-medium px-3 py-1 rounded-full">
-                        <i class="fa-regular fa-folder-open"></i>
+                <h1 class="text-xl md:text-2xl font-bold text-slate-800 flex items-center gap-2">
+                    <span class="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-500 text-white text-base">
+                        📁
                     </span>
                     Detalle del proyecto
                 </h1>
             </div>
-            <div class="text-sm bg-slate-100 px-4 py-1.5 rounded-full text-slate-600 shadow-sm">
-                ID: <span class="font-mono font-medium">{{ proyecto.id }}</span>
-            </div>
+            <span class="text-sm bg-indigo-50 text-indigo-600 border border-indigo-100 px-3 py-1.5 rounded-full font-medium">
+                ID: <span class="font-mono font-bold">{{ proyecto.id }}</span>
+            </span>
         </div>
 
-        <!-- contenido principal: detalle del proyecto -->
-        <div class="detalle-card bg-white border border-slate-200/80 rounded-xl p-6 md:p-8 shadow-sm">
-            
-            <!-- nombre y estado -->
-            <div class="flex flex-wrap items-start justify-between gap-4 mb-5">
-                <h2 class="text-2xl md:text-3xl font-semibold text-slate-800 break-words flex items-center gap-2">
-                    <span class="bg-indigo-50 p-2 rounded-xl text-indigo-500">
-                        <i class="fa-solid fa-tag"></i>
-                    </span>
+        <!-- ===== Tarjeta de detalle ===== -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 md:p-8 shadow-sm">
+
+            <!-- Nombre y estado -->
+            <div class="flex flex-wrap items-start justify-between gap-3 mb-6">
+                <h2 class="text-2xl md:text-3xl font-bold text-slate-800 break-words">
                     {{ proyecto.nombre }}
                 </h2>
-                <span class="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-200/60">
+                <span class="inline-flex items-center gap-2 text-xs font-semibold text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-200">
                     <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
                     Activo
                 </span>
             </div>
 
-            <!-- descripción -->
+            <!-- Descripción -->
             <div class="mb-6">
-                <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5 flex items-center gap-2">
-                    <i class="fa-solid fa-align-left text-slate-400"></i>
+                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
                     Descripción
                 </h3>
-                <div class="bg-slate-50/70 rounded-xl p-4 border border-slate-200/60">
+                <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
                     <p class="text-slate-700 leading-relaxed">
                         {{ proyecto.descripcion|default:"<span class='text-slate-400 italic'>Sin descripción proporcionada</span>" }}
                     </p>
                 </div>
             </div>
 
-            <!-- duración y metadatos -->
+            <!-- Duración e ID -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-                <div class="bg-slate-50/70 rounded-xl p-4 border border-slate-200/60">
-                    <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1 flex items-center gap-2">
-                        <i class="fa-regular fa-clock"></i>
+                <div class="bg-indigo-50/60 rounded-xl p-4 border border-indigo-100">
+                    <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
                         Duración
                     </h3>
-                    <p class="text-slate-700 font-medium flex items-center gap-2">
-                        <span class="bg-indigo-50/70 px-3 py-1 rounded-full text-indigo-700 border border-indigo-100/60 text-sm">
-                            {{ proyecto.duracion|default:"No especificada" }}
-                        </span>
-                    </p>
+                    <span class="inline-block bg-white px-3 py-1 rounded-full text-indigo-700 border border-indigo-100 text-sm font-semibold shadow-sm">
+                        {{ proyecto.duracion|default:"No especificada" }}
+                    </span>
                 </div>
-                <div class="bg-slate-50/70 rounded-xl p-4 border border-slate-200/60">
-                    <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1 flex items-center gap-2">
-                        <i class="fa-regular fa-hashtag"></i>
+                <div class="bg-pink-50/60 rounded-xl p-4 border border-pink-100">
+                    <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
                         Identificador
                     </h3>
-                    <p class="text-slate-700 font-mono text-sm">#{{ proyecto.id }}</p>
+                    <p class="text-slate-700 font-mono text-sm font-semibold">#{{ proyecto.id }}</p>
                 </div>
             </div>
 
-            <!-- Tareas del proyecto -->
+            <!-- Tareas -->
             <div class="mb-6">
-                <div class="flex items-center justify-between gap-4 mb-4">
-                    <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-2">
-                        <i class="fa-solid fa-list-check text-indigo-500"></i>
+                <div class="flex items-center justify-between gap-4 mb-4 flex-wrap">
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">
                         Tareas del proyecto
                     </h3>
                     <a href="{% url 'crear_tarea' proyecto.id %}"
-                       class="inline-flex items-center gap-1.5 px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-xl border border-indigo-600 hover:bg-indigo-700 transition-colors shadow-sm">
-                        <i class="fa-solid fa-plus"></i>
+                       class="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-semibold text-white bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 rounded-lg shadow-md transition">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 5v14M5 12h14"/>
+                        </svg>
                         <span class="hidden sm:inline">Nueva tarea</span>
                     </a>
                 </div>
-                
+
                 {% if proyecto.tareas.all %}
                     <div class="space-y-2">
                         {% for tarea in proyecto.tareas.all %}
-                            <div class="tarea-item flex flex-col sm:flex-row items-start sm:items-center gap-2 p-4 bg-slate-50/70 rounded-xl border border-slate-200/60 hover:border-indigo-200 transition-all">
+                            <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3 p-4 bg-slate-50 border border-slate-200 hover:border-purple-300 rounded-xl transition">
+
+                                <!-- Indicador + título -->
                                 <div class="flex items-center gap-3 flex-1 min-w-0 w-full sm:w-auto">
-                                    <span class="w-2.5 h-2.5 rounded-full flex-shrink-0 
+                                    <span class="w-2.5 h-2.5 rounded-full flex-shrink-0
                                         {% if tarea.estado == 'COMPLETADA' %}bg-emerald-400
                                         {% elif tarea.estado == 'EN_PROGRESO' %}bg-amber-400
                                         {% else %}bg-slate-400{% endif %}">
                                     </span>
-                                    <span class="font-medium text-slate-700 truncate">{{ tarea.titulo }}</span>
+                                    <span class="font-semibold text-slate-700 truncate">{{ tarea.titulo }}</span>
                                 </div>
+
+                                <!-- Badges -->
                                 <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
-                                    <span class="text-xs px-2.5 py-0.5 rounded-full border 
-                                        {% if tarea.prioridad == 'ALTA' %}badge-prioridad-alta
-                                        {% elif tarea.prioridad == 'MEDIA' %}badge-prioridad-media
-                                        {% else %}badge-prioridad-baja{% endif %}">
-                                        <i class="fa-regular fa-flag mr-1"></i>
+                                    <span class="text-xs px-2.5 py-1 rounded-full font-medium border
+                                        {% if tarea.prioridad == 'ALTA' %}bg-red-100 text-red-800 border-red-300
+                                        {% elif tarea.prioridad == 'MEDIA' %}bg-amber-100 text-amber-800 border-amber-300
+                                        {% else %}bg-emerald-100 text-emerald-800 border-emerald-300{% endif %}">
                                         {{ tarea.get_prioridad_display }}
                                     </span>
-                                    <span class="text-xs px-2.5 py-0.5 rounded-full border
-                                        {% if tarea.estado == 'COMPLETADA' %}badge-completada
-                                        {% elif tarea.estado == 'EN_PROGRESO' %}badge-progreso
-                                        {% else %}badge-pendiente{% endif %}">
-                                        <i class="fa-regular fa-circle-check mr-1"></i>
+                                    <span class="text-xs px-2.5 py-1 rounded-full font-medium border
+                                        {% if tarea.estado == 'COMPLETADA' %}bg-emerald-100 text-emerald-800 border-emerald-300
+                                        {% elif tarea.estado == 'EN_PROGRESO' %}bg-blue-100 text-blue-800 border-blue-300
+                                        {% else %}bg-amber-100 text-amber-800 border-amber-300{% endif %}">
                                         {{ tarea.get_estado_display }}
                                     </span>
                                 </div>
@@ -194,59 +126,41 @@
                         {% endfor %}
                     </div>
                 {% else %}
-                    <div class="text-center text-slate-400 py-8 bg-slate-50/70 rounded-xl border border-slate-200/60">
-                        <i class="fa-regular fa-circle-check text-3xl block mb-3 text-slate-300"></i>
-                        <p class="text-sm">Este proyecto aún no tiene tareas.</p>
-                        <p class="text-xs mt-1">Haz clic en "Nueva tarea" para comenzar</p>
+                    <div class="text-center py-10 bg-slate-50 border-2 border-dashed border-indigo-200 rounded-xl">
+                        <span class="text-4xl block mb-3">✅</span>
+                        <p class="text-sm font-medium text-slate-500">Este proyecto aún no tiene tareas.</p>
+                        <p class="text-xs mt-1 text-slate-400">Haz clic en "Nueva tarea" para comenzar</p>
                     </div>
                 {% endif %}
             </div>
 
-            <!-- acciones: editar / eliminar -->
-            <div class="flex flex-wrap items-center gap-3 pt-4 border-t border-slate-200/60 mt-2">
-                <a href="{% url 'editar_proyecto' proyecto.id %}" 
-                   class="enlace-accion inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-slate-700 bg-slate-100/80 hover:bg-slate-200/80 rounded-lg transition-colors">
-                    <i class="fa-regular fa-pen-to-square"></i>
+            <!-- Acciones -->
+            <div class="flex flex-wrap items-center gap-3 pt-5 border-t border-slate-200 mt-4">
+                <a href="{% url 'editar_proyecto' proyecto.id %}"
+                   class="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition">
                     Editar
                 </a>
-                <a href="{% url 'eliminar_proyecto' proyecto.id %}" 
+                <a href="{% url 'eliminar_proyecto' proyecto.id %}"
                    onclick="return confirm('¿Está seguro de eliminar el proyecto?')"
-                   class="enlace-accion inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-rose-600 bg-rose-50/70 hover:bg-rose-100/80 rounded-lg transition-colors">
-                    <i class="fa-regular fa-trash-can"></i>
+                   class="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-100 rounded-lg transition">
                     Eliminar proyecto
                 </a>
                 <a href="{% url 'crear_tarea' proyecto.id %}"
-                   class="enlace-accion inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-indigo-600 bg-indigo-50/70 hover:bg-indigo-100/80 rounded-lg transition-colors">
-                    <i class="fa-solid fa-plus"></i>
-                    Crear Tarea
+                   class="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 border border-indigo-100 rounded-lg transition">
+                    Crear tarea
                 </a>
-                <span class="text-xs text-slate-400 ml-auto">Última actualización: hoy</span>
             </div>
         </div>
 
-        <!-- pie de página sutil -->
-        <div class="mt-8 pt-4 border-t border-slate-200/60 text-xs text-slate-400 flex flex-wrap justify-between items-center">
-            <span class="flex items-center gap-2">
-                <i class="fa-regular fa-circle-check text-emerald-400"></i>
+        <!-- ===== Pie ===== -->
+        <div class="mt-6 pt-4 border-t border-slate-200 text-xs text-slate-500 flex flex-wrap justify-between items-center gap-2">
+            <span class="inline-flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                 Detalle de proyecto · Django + Tailwind
             </span>
-            <span class="flex gap-3">
-                <span class="inline-flex items-center gap-1">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-300"></span> 
-                    {{ proyecto.nombre|truncatechars:20 }}
-                </span>
-                <span class="inline-flex items-center gap-1">
-                    <i class="fa-solid fa-pen-to-square text-indigo-400"></i>
-                    <a href="{% url 'editar_proyecto' proyecto.id %}" class="hover:text-indigo-500 transition-colors">
-                        Editar
-                    </a>
-                    <span class="mx-1 text-slate-300">·</span>
-                    <i class="fa-solid fa-square-caret-left"></i>
-                    <a href="{% url 'proyectos' %}" class="hover:text-indigo-500 transition-colors">
-                        Lista
-                    </a>
-                </span>
-            </span>
+            <a href="{% url 'proyectos' %}" class="hover:text-indigo-600 font-medium transition">
+                ← Volver a la lista
+            </a>
         </div>
     </main>
 

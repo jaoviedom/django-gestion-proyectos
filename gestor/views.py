@@ -71,6 +71,6 @@ def crear_tarea(request, proyecto_id):
         prioridad=prioridad,
         estado=estado
       )
-      return redirect('detalle_proyecto', id=proyecto.id)
+      return redirect('proyecto_detalle', proyecto_id=proyecto.id)
 
   return render(request, 'crear-tarea.html', {'proyecto': proyecto, 'prioridad_choices': Tarea.PRIORIDAD_CHOICES, 'estado_choices': Tarea.ESTADO_CHOICES})

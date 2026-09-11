@@ -1,40 +1,6 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar proyecto</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @keyframes floatBlob {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            25%      { transform: translate(50px, -60px) scale(1.1); }
-            50%      { transform: translate(-40px, -80px) scale(0.95); }
-            75%      { transform: translate(-60px, 40px) scale(1.05); }
-        }
-        @keyframes floatBlobAlt {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            25%      { transform: translate(-60px, 50px) scale(1.08); }
-            50%      { transform: translate(40px, 70px) scale(0.95); }
-            75%      { transform: translate(70px, -40px) scale(1.05); }
-        }
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50%      { background-position: 100% 50%; }
-        }
-        @keyframes floatIcon {
-            0%, 100% { transform: translateY(0) rotate(-3deg); }
-            50%      { transform: translateY(-6px) rotate(3deg); }
-        }
-        .animate-float-blob    { animation: floatBlob 18s ease-in-out infinite; }
-        .animate-float-blob-alt{ animation: floatBlobAlt 22s ease-in-out infinite; }
-        .animate-float-blob-3  { animation: floatBlob 25s ease-in-out -8s infinite; }
-        .animate-gradient      { background-size: 200% 200%; animation: gradientShift 5s ease infinite; }
-        .animate-float-icon    { animation: floatIcon 3s ease-in-out infinite; }
-    </style>
-</head>
-<body class="bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 min-h-screen flex items-center justify-center p-4 md:p-6 relative">
-
+{% extends 'layouts/base.html' %}
+{% block title %}Editar Proyecto{% endblock %}
+{% block content %}
     <!-- Blobs decorativos: quitado overflow-hidden del body, añadido will-change para forzar composición GPU -->
     <div class="fixed -top-40 -left-40 w-[500px] h-[500px] rounded-full bg-gradient-to-br from-indigo-300 to-purple-300 blur-3xl opacity-60 animate-float-blob pointer-events-none will-change-transform"></div>
     <div class="fixed -bottom-40 -right-32 w-[450px] h-[450px] rounded-full bg-gradient-to-br from-pink-300 to-rose-300 blur-3xl opacity-60 animate-float-blob-alt pointer-events-none will-change-transform"></div>
@@ -131,6 +97,4 @@
             Todos los campos son obligatorios
         </p>
     </div>
-
-</body>
-</html>
+{% endblock %}

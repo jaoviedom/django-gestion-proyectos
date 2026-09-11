@@ -1,48 +1,53 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear tarea</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 min-h-screen flex items-center justify-center p-4">
+{% extends 'layouts/base.html' %}
+{% block title %}Crear Tarea{% endblock %}
+{% block content %}
 
-    <div class="w-full max-w-lg bg-white/80 backdrop-blur-lg rounded-2xl shadow-xl border border-white p-8">
+    <div class="max-w-lg mx-auto">
 
-        <!-- Encabezado -->
+        <!-- ===== Encabezado ===== -->
         <div class="text-center mb-8">
-            <div class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-500 text-white text-xl shadow-lg mb-3">
+            <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 text-white text-2xl shadow-lg shadow-purple-400/40 mb-4">
                 ✓
             </div>
-            <h1 class="text-2xl font-bold text-slate-800">Crear tarea</h1>
-            <p class="text-sm text-slate-500 mt-1">Añadir tarea al proyecto</p>
+            <h1 class="text-2xl md:text-3xl font-bold text-slate-800 tracking-tight">
+                Crear tarea
+            </h1>
+            <p class="text-sm text-slate-500 mt-2">Añadir tarea al proyecto</p>
             <span class="inline-block mt-3 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-600 border border-indigo-100">
                 {{ proyecto.nombre }}
             </span>
         </div>
 
-        <!-- Formulario -->
-        <form method="post" class="space-y-4">
+        <!-- ===== Formulario ===== -->
+        <form method="post" class="space-y-5">
             {% csrf_token %}
 
+            <!-- Campo: Título -->
             <div>
-                <label for="titulo" class="block text-sm font-medium text-slate-700 mb-1">Título</label>
+                <label for="titulo" class="block text-sm font-semibold text-slate-700 mb-1.5">
+                    Título
+                </label>
                 <input type="text" name="titulo" id="titulo" required
                        placeholder="Ej. Diseñar la portada"
                        class="w-full px-4 py-2.5 rounded-lg bg-slate-50 border border-slate-200 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition">
             </div>
 
+            <!-- Campo: Descripción -->
             <div>
-                <label for="descripcion" class="block text-sm font-medium text-slate-700 mb-1">Descripción</label>
+                <label for="descripcion" class="block text-sm font-semibold text-slate-700 mb-1.5">
+                    Descripción
+                </label>
                 <textarea name="descripcion" id="descripcion" rows="3"
                           placeholder="Detalles de la tarea..."
                           class="w-full px-4 py-2.5 rounded-lg bg-slate-50 border border-slate-200 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition resize-y"></textarea>
             </div>
 
+            <!-- Fila: Prioridad y Estado -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label for="prioridad" class="block text-sm font-medium text-slate-700 mb-1">Prioridad</label>
+                    <label for="prioridad" class="block text-sm font-semibold text-slate-700 mb-1.5">
+                        Prioridad
+                    </label>
                     <select name="prioridad" id="prioridad"
                             class="w-full px-4 py-2.5 rounded-lg bg-slate-50 border border-slate-200 text-slate-800 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition">
                         {% for valor, etiqueta in prioridad_choices %}
@@ -52,7 +57,9 @@
                 </div>
 
                 <div>
-                    <label for="estado" class="block text-sm font-medium text-slate-700 mb-1">Estado</label>
+                    <label for="estado" class="block text-sm font-semibold text-slate-700 mb-1.5">
+                        Estado
+                    </label>
                     <select name="estado" id="estado"
                             class="w-full px-4 py-2.5 rounded-lg bg-slate-50 border border-slate-200 text-slate-800 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition">
                         {% for valor, etiqueta in estado_choices %}
@@ -62,18 +69,23 @@
                 </div>
             </div>
 
-            <div class="flex gap-3 pt-2">
+            <!-- Botones -->
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
                 <a href="{% url 'proyecto_detalle' proyecto.id %}"
-                   class="flex-1 text-center px-5 py-3 text-sm font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-lg transition">
+                   class="order-2 sm:order-1 sm:flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 text-sm font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-lg transition">
                     Cancelar
                 </a>
                 <button type="submit"
-                        class="flex-[2] px-6 py-3 text-sm font-semibold text-white bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 rounded-lg shadow-md transition">
+                        class="order-1 sm:order-2 sm:flex-[2] inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold text-white bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 rounded-lg shadow-md transition">
                     Guardar tarea
                 </button>
             </div>
         </form>
-    </div>
 
-</body>
-</html>
+        <!-- Pie de página sutil -->
+        <p class="text-xs text-slate-400 text-center mt-6 select-none flex items-center justify-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+            El título es obligatorio
+        </p>
+    </div>
+{% endblock %}

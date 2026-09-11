@@ -1,181 +1,15 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nuevo proyecto</title>
+{% extends 'layouts/base.html' %}
+{% block title %}Nuevo proyecto{% endblock %}
+{% block content %}
 
-  <!-- Tailwind CSS via CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Fuente Inter -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <style>
-    * { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
-
-    body {
-      background: linear-gradient(135deg, #f0f4ff 0%, #faf5ff 45%, #fdf2f8 100%);
-      min-height: 100vh;
-      position: relative;
-      overflow-x: hidden;
-    }
-
-    /* ===== Blobs animados de fondo (pastel) ===== */
-    .blob {
-      position: fixed;
-      border-radius: 50%;
-      filter: blur(100px);
-      opacity: 0.55;
-      z-index: 0;
-      pointer-events: none;
-      animation: float 20s ease-in-out infinite;
-    }
-    .blob-1 {
-      width: 520px; height: 520px;
-      background: linear-gradient(135deg, #a5b4fc, #c4b5fd);
-      top: -180px; left: -180px;
-    }
-    .blob-2 {
-      width: 460px; height: 460px;
-      background: linear-gradient(135deg, #fbcfe8, #fda4af);
-      bottom: -150px; right: -120px;
-      animation-delay: -7s;
-    }
-    .blob-3 {
-      width: 380px; height: 380px;
-      background: linear-gradient(135deg, #a5f3fc, #93c5fd);
-      top: 45%; left: 55%;
-      animation-delay: -13s;
-    }
-    @keyframes float {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      33%      { transform: translate(40px, -30px) scale(1.08); }
-      66%      { transform: translate(-30px, 25px) scale(0.95); }
-    }
-
-    /* ===== Panel con glassmorphism claro ===== */
-    .glass-panel {
-      background: rgba(255, 255, 255, 0.72);
-      backdrop-filter: blur(24px) saturate(180%);
-      -webkit-backdrop-filter: blur(24px) saturate(180%);
-      border: 1px solid rgba(255, 255, 255, 0.9);
-      box-shadow:
-        0 25px 50px -12px rgba(99, 102, 241, 0.15),
-        0 8px 20px -8px rgba(139, 92, 246, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 1);
-      opacity: 0;
-      transform: translateY(24px);
-      animation: panelIn 0.7s cubic-bezier(.2,.8,.2,1) forwards;
-    }
-    @keyframes panelIn {
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ===== Inputs ===== */
-    .field-input {
-      background: rgba(248, 250, 252, 0.7);
-      border: 1px solid rgba(226, 232, 240, 0.9);
-      transition: all 0.3s ease;
-    }
-    .field-input:hover {
-      background: rgba(255, 255, 255, 0.95);
-      border-color: rgba(167, 139, 250, 0.4);
-    }
-    .field-input:focus {
-      background: #ffffff;
-      border-color: #a78bfa;
-      box-shadow: 0 0 0 4px rgba(167, 139, 250, 0.15);
-      outline: none;
-      transform: translateY(-1px);
-    }
-
-    /* ===== Botón primario con gradiente animado ===== */
-    .btn-primary {
-      position: relative;
-      background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
-      background-size: 200% 200%;
-      animation: btnGradient 5s ease infinite;
-      box-shadow: 0 10px 25px -8px rgba(139, 92, 246, 0.55);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      overflow: hidden;
-    }
-    .btn-primary:hover {
-      transform: translateY(-2px) scale(1.01);
-      box-shadow: 0 18px 35px -10px rgba(236, 72, 153, 0.6);
-    }
-    .btn-primary:active { transform: translateY(0) scale(0.98); }
-
-    /* Brillo que recorre el botón */
-    .btn-primary::after {
-      content: "";
-      position: absolute;
-      top: 0; left: -100%;
-      width: 100%; height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
-      transition: left 0.6s ease;
-    }
-    .btn-primary:hover::after { left: 100%; }
-
-    @keyframes btnGradient {
-      0%, 100% { background-position: 0% 50%; }
-      50%      { background-position: 100% 50%; }
-    }
-
-    /* ===== Icono flotante del encabezado ===== */
-    .float-icon {
-      animation: floatIcon 3s ease-in-out infinite;
-      display: inline-block;
-    }
-    @keyframes floatIcon {
-      0%, 100% { transform: translateY(0) rotate(-3deg); }
-      50%      { transform: translateY(-4px) rotate(3deg); }
-    }
-
-    /* ===== Título con glow suave ===== */
-    .titulo-glow {
-      text-shadow: 0 2px 20px rgba(139, 92, 246, 0.18);
-    }
-
-    /* ===== Scrollbar personalizado ===== */
-    ::-webkit-scrollbar { width: 10px; }
-    ::-webkit-scrollbar-track { background: #f1f5f9; }
-    ::-webkit-scrollbar-thumb {
-      background: linear-gradient(#a5b4fc, #c4b5fd);
-      border-radius: 10px;
-      border: 2px solid #f1f5f9;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: linear-gradient(#818cf8, #a78bfa);
-    }
-
-    /* Reducir movimiento para accesibilidad */
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-      }
-    }
-  </style>
-</head>
-<body class="antialiased text-slate-700 min-h-screen flex items-center justify-center p-4 md:p-6">
-
-  <!-- Blobs de fondo animados -->
-  <div class="blob blob-1"></div>
-  <div class="blob blob-2"></div>
-  <div class="blob blob-3"></div>
-
-  <div class="glass-panel relative z-10 rounded-3xl p-8 md:p-10 max-w-lg w-full">
+  <div class="max-w-lg mx-auto">
 
     <!-- ===== Encabezado ===== -->
     <div class="text-center mb-8">
-      <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 text-2xl shadow-lg shadow-purple-400/40 mb-4 float-icon">
+      <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 text-white text-2xl shadow-lg shadow-purple-400/40 mb-4">
         ✨
       </div>
-      <h1 class="text-3xl md:text-4xl font-extrabold text-slate-800 tracking-tight titulo-glow">
+      <h1 class="text-2xl md:text-3xl font-bold text-slate-800 tracking-tight">
         Nuevo proyecto
       </h1>
       <p class="text-sm text-slate-500 mt-2">Completa los campos para crear un proyecto</p>
@@ -192,7 +26,7 @@
         </label>
         <input type="text" name="nombre" id="nombre" required
                placeholder="Ej. Rediseño de la web"
-               class="field-input w-full px-4 py-2.5 rounded-xl text-slate-800 placeholder-slate-400 shadow-sm">
+               class="w-full px-4 py-2.5 rounded-lg bg-slate-50 border border-slate-200 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition">
       </div>
 
       <!-- Campo: Descripción -->
@@ -202,7 +36,7 @@
         </label>
         <textarea name="descripcion" id="descripcion" rows="4" required
                   placeholder="Describe brevemente el objetivo del proyecto..."
-                  class="field-input w-full px-4 py-2.5 rounded-xl text-slate-800 placeholder-slate-400 shadow-sm resize-y"></textarea>
+                  class="w-full px-4 py-2.5 rounded-lg bg-slate-50 border border-slate-200 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition resize-y"></textarea>
       </div>
 
       <!-- Campo: Duración -->
@@ -212,14 +46,20 @@
         </label>
         <input type="number" name="duracion" id="duracion" required step="1" min="1"
                placeholder="Ej. 30"
-               class="field-input w-full px-4 py-2.5 rounded-xl text-slate-800 placeholder-slate-400 shadow-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none">
+               class="w-full px-4 py-2.5 rounded-lg bg-slate-50 border border-slate-200 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none">
       </div>
 
-      <!-- Botón Guardar -->
-      <button type="submit"
-              class="btn-primary w-full text-white font-semibold py-3 px-6 rounded-xl focus:ring-4 focus:ring-purple-200 focus:outline-none">
-        Guardar proyecto
-      </button>
+      <!-- Botones -->
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
+        <a href="{% url 'proyectos' %}"
+           class="order-2 sm:order-1 sm:flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 text-sm font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-lg transition">
+          Cancelar
+        </a>
+        <button type="submit"
+                class="order-1 sm:order-2 sm:flex-[2] inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold text-white bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 rounded-lg shadow-md transition">
+          Guardar proyecto
+        </button>
+      </div>
     </form>
 
     <!-- Pie de página sutil -->
@@ -228,6 +68,4 @@
       Todos los campos son obligatorios
     </p>
   </div>
-
-</body>
-</html>
+{% endblock %}

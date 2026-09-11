@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.views.decorators.http import require_POST
 from .models import Proyecto, Tarea
 
 def hello(request):
@@ -74,3 +75,17 @@ def crear_tarea(request, proyecto_id):
       return redirect('proyecto_detalle', proyecto_id=proyecto.id)
 
   return render(request, 'crear-tarea.html', {'proyecto': proyecto, 'prioridad_choices': Tarea.PRIORIDAD_CHOICES, 'estado_choices': Tarea.ESTADO_CHOICES})
+
+@require_POST
+def avanzar_estado_tarea(request, id):
+  tarea = Tarea.objects.get(id=id)
+
+  if tarea.estado == "PENDIENTE":
+    tarea.estado = "EN_PROGRESO"
+    tarea.save()
+  elif tarea.estado == "EN_PROGRESO":
+    tarea.estado = "COMPLETADO"
+    tarea.save()
+
+  return redirect('proyecto_detalle', proyecto_id=tarea.proyecto.id)
+

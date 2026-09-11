@@ -1,15 +1,6 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalle del proyecto · Gestor de Proyectos</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 min-h-screen p-4 md:p-6">
-
-    <main class="w-full max-w-4xl mx-auto bg-white/80 backdrop-blur-lg rounded-2xl shadow-xl border border-white p-6 md:p-8">
-
+{% extends 'layouts/base.html' %}
+{% block title %}Detalle de Proyecto{% endblock %}
+{% block content %}
         <!-- ===== Encabezado ===== -->
         <div class="flex flex-wrap items-center justify-between gap-4 mb-6 pb-5 border-b border-slate-200">
             <div class="flex items-center gap-3 flex-wrap">
@@ -115,12 +106,17 @@
                                         {% else %}bg-emerald-100 text-emerald-800 border-emerald-300{% endif %}">
                                         {{ tarea.get_prioridad_display }}
                                     </span>
-                                    <span class="text-xs px-2.5 py-1 rounded-full font-medium border
-                                        {% if tarea.estado == 'COMPLETADA' %}bg-emerald-100 text-emerald-800 border-emerald-300
-                                        {% elif tarea.estado == 'EN_PROGRESO' %}bg-blue-100 text-blue-800 border-blue-300
-                                        {% else %}bg-amber-100 text-amber-800 border-amber-300{% endif %}">
-                                        {{ tarea.get_estado_display }}
-                                    </span>
+
+                                    <form action="{% url 'avanzar_estado_tarea' tarea.id %}" method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" class="text-xs px-2.5 py-1 rounded-full font-medium border
+                                            {% if tarea.estado == 'COMPLETADA' %}bg-emerald-100 text-emerald-800 border-emerald-300
+                                            {% elif tarea.estado == 'EN_PROGRESO' %}bg-blue-100 text-blue-800 border-blue-300
+                                            {% else %}bg-amber-100 text-amber-800 border-amber-300{% endif %}"
+                                            onclick="return confirm('¿Seguro de pasar al siguiente estado?')">
+                                            {{ tarea.get_estado_display }}
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                         {% endfor %}
@@ -162,7 +158,4 @@
                 ← Volver a la lista
             </a>
         </div>
-    </main>
-
-</body>
-</html>
+{% endblock %}

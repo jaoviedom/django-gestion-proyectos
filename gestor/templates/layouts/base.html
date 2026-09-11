@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Título{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">
+</head>
+<body class="bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 min-h-screen p-4 md:p-6">
+  <nav class="w-full max-w-4xl mx-auto mb-4 bg-white/80 backdrop-blur-lg rounded-2xl shadow-md border border-white px-4 md:px-6 py-3 flex items-center justify-between">
+    <a href="{% url 'home' %}" class="flex items-center gap-2 font-bold text-slate-800 hover:text-indigo-600 transition">
+        <span class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-500 text-white text-sm">
+            <img src="{% static 'img/logo.png' %}" alt="Logo">
+        </span>
+        <span class="hidden sm:inline">Gestor</span>
+    </a>
+    <div class="flex items-center gap-1 sm:gap-2">
+        <a href="{% url 'home' %}"
+            class="px-3 py-2 text-sm font-medium text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition">
+            Inicio
+        </a>
+        <a href="{% url 'proyectos' %}"
+            class="px-3 py-2 text-sm font-medium text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition">
+            Proyectos
+        </a>
+    </div>
+  </nav>
+  <main class="w-full max-w-4xl mx-auto bg-white/80 backdrop-blur-lg rounded-2xl shadow-xl border border-white p-6 md:p-8">
+    {% block content %}
+    {% endblock %}
+  </main>
+</body>
+</html>

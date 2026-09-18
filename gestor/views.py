@@ -1,14 +1,17 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import login_required
 from .models import Proyecto, Tarea
 
+@login_required
 def hello(request):
-  return HttpResponse("¡Hola mundo!")
+  return render(request, 'home.html')
 
 def acerca_de(request):
   return HttpResponse("<h1>Acerca de</h1>")
 
+@login_required
 def proyectos(request):
   proyectos = Proyecto.objects.all()
   return render(request, 'proyectos.html', {'proyectos': proyectos})
@@ -22,12 +25,14 @@ def nuevo_proyecto(request):
     nombre = request.POST.get('nombre')
     descripcion = request.POST.get('descripcion')
     duracion = request.POST.get('duracion')
+    imagen = request.FILES.get('imagen')
 
     if nombre and descripcion and duracion:
       proyecto = Proyecto(
         nombre=nombre,
         descripcion=descripcion,
-        duracion=duracion
+        duracion=duracion,
+        imagen=imagen
       )
       proyecto.save()
     

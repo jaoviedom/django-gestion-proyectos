@@ -7,6 +7,7 @@ class Proyecto(models.Model):
   nombre = models.CharField(max_length=100)
   descripcion = models.TextField()
   duracion = models.IntegerField()
+  imagen = models.ImageField(upload_to='proyectos/', default='proyectos/logo.png')
 
 class Tarea(models.Model):
   '''

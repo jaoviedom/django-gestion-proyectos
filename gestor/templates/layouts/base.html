@@ -26,6 +26,10 @@
             Proyectos
         </a>
     </div>
+    <form action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Salir</button>
+    </form>
   </nav>
   <main class="w-full max-w-4xl mx-auto bg-white/80 backdrop-blur-lg rounded-2xl shadow-xl border border-white p-6 md:p-8">
     {% block content %}

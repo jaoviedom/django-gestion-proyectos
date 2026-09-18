@@ -16,7 +16,7 @@
     </div>
 
     <!-- ===== Formulario ===== -->
-    <form method="post" class="space-y-5">
+    <form method="post" enctype="multipart/form-data" class="space-y-5">
       {% csrf_token %}
 
       <!-- Campo: Nombre -->
@@ -47,6 +47,10 @@
         <input type="number" name="duracion" id="duracion" required step="1" min="1"
                placeholder="Ej. 30"
                class="w-full px-4 py-2.5 rounded-lg bg-slate-50 border border-slate-200 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none">
+      </div>
+      <div>
+        <label for="imagen">Imagen del proyecto</label>
+        <input type="file" name="imagen" id="imagen" accept="image/*">
       </div>
 
       <!-- Botones -->
